@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,7 +113,6 @@ public class Controller {
             if (key != null) {
                 //удалить книгу
                 hm.remove(key);
-
                 return true;
             }
         }
@@ -123,7 +123,7 @@ public class Controller {
     public String getBooksForWrite(){
         Scanner Sc = new Scanner(System.in);
         System.out.println("\n--- Запись книг -----\n");
-        System.out.println("\nВведите дату(Формат: ДД-ММ-ГГГГ): ");
+        System.out.println("\nВведите дату(Формат: ГГГГ-ММ-ДД): ");
         String date = Sc.next();
         Scanner ScA = new Scanner(System.in);
         System.out.println("\nВведите автора книги: ");
@@ -140,6 +140,7 @@ public class Controller {
         //контроль регистрации читателя
         Object kodReader = kntrRegistration(hm);
         if (kodReader != null) {
+            //собрать имя файла книг читателя
             String nameFileBooks = nameBooks + kodReader + ".txt";
             //получить строку данных для записи
             String strBooks=getBooksForWrite();
@@ -151,6 +152,38 @@ public class Controller {
         return false;
     }
 
+    //поиск долга по дате
+    public  boolean searchDate(HashMap<String, String> hmF, HashMap<String, String> hmB) throws IOException {
+        //контроль регистрации читателя
+        Object kodReader = kntrRegistration(hmF);
+        if (kodReader != null) {
+            String nameFileBooks = nameBooks + kodReader + ".txt";
+            //hmBooks
+            boolean res=setList( getDataFromFile(nameFileBooks), KOD_HM_BOOKS, hmB);
+            Scanner Sc = new Scanner(System.in);
+            System.out.println("\n--- Поиск задолжности -----\n");
+            System.out.println("\nВведите дату(Формат: ГГГГ-ММ-ДД): ");
+            String date = Sc.next();
+            LocalDate dGet=LocalDate.parse(date);
+            //System.out.println("dateGet=" + dGet);
+
+            //поиск в списке книг читателя
+            for (Map.Entry m : hmB.entrySet()) {
+                String[] mStr=new String[m.getValue().toString().length()];
+                mStr=m.getValue().toString().split(",");
+                //System.out.println("m=" + m.getValue().toString());
+                LocalDate dSet=LocalDate.parse(mStr[0].toString());
+                //System.out.println("dateSet=" + dSet);
+                //! можно и так!
+                // int res2=dGet.compareTo(dSet);
+                //System.out.println("res=" + res2);
+                //if (res2 < 0) System.out.println("Долг по: " + m.getValue());
+                if (dSet.isAfter(dGet)) System.out.println("Долг: " + m.getValue());
+            }
+        }
+        else {System.out.println("Извините,читатель не зарегистрирован!");}
+        return false;
+    }
 
     //метод удаление файла с книгами
     public boolean deleteFileBooks(HashMap<String, String> hm){
@@ -273,7 +306,7 @@ public class Controller {
     }
 
     //(ok) метод распарсивания массива строк в списки (HashMap) согласно коду (kodParser)
-    public boolean setList(String[] allStrFile, int kodParser, HashMap<String, String> hm) {
+    public static boolean setList(String[] allStrFile, int kodParser, HashMap<String, String> hm) {
         if (allStrFile == null) return false;
         String key=null;
 

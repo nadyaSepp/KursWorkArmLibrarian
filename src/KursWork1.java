@@ -121,7 +121,26 @@ public class KursWork1 {
                             case Arm.KOD_SUBMENU_EXIT:    {flagSubMenu=false; res=true; break;}
                             default: {res=true; System.out.println("\nНе верный код: " + kodSubMenu);}
                         }//sw
-                    }//
+                    }//wP
+                    if (! res) System.out.println("\n" + str_error);
+                    break;
+                }
+                case Arm.KOD_CONTROL_DOLG:{
+                    while(flagSubMenu) {
+                        res = false;
+                        Arm.showMenu(Arm.KOD_CONTROL_DOLG);
+                        System.out.println("\nВведите код подменю: \n");
+                        kodSubMenu = Sc.nextInt();
+                        switch (kodSubMenu) {
+                            case Arm.KOD_SEARCH_DATE: {
+                                contr.searchDate(hmFormReaders,hmBooks);
+                                res = true;
+                                break;
+                            }
+                            case Arm.KOD_SUBMENU_EXIT:    {flagSubMenu=false; res=true; break;}
+                            default: {res=true; System.out.println("\nНе верный код: " + kodSubMenu);}
+                        }//swP
+                    }//wP
                     if (! res) System.out.println("\n" + str_error);
                     break;
                 }

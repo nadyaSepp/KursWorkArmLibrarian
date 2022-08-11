@@ -6,22 +6,24 @@ import java.util.HashMap;
 //модель описывающая сущность - АРМ библиотекаря
 public class Arm {
     //коды работы АРМ
+    //global menu
     static final int KOD_GLOB_MENU=0;       // show главное меню АРМ
     static final int KOD_ENTER_MENU=1;      // вход в главное меню АРМ
     static final int KOD_EXIT_MENU=2;       // выход из главного меню АРМ
     static final int KOD_GLOB_MENU_EXIT=55; // выход из главного меню АРМ
     static final int KOD_SUBMENU_EXIT=555;  // выход из подменю
-
+    //podmenu
     static final int KOD_WORK_FORMULYAR=1;   // работа с формуляром читателя
     static final int KOD_CONTROL_DOLG=2;     // контроль должников
-
+    //podmenu: работа с формуляром читателя
     static final int KOD_SIGNUP=1;           // регистрация читателя
     static final int KOD_WRITE_BOOKS=2;      // запись книг в формуляр читателя
     static final int KOD_DELETE_BOOKS=3;     // удаление книг из формуляра
     static final int KOD_DELETE_FORMULAR=4;  // удаление формуляра читателя
     static final int KOD_SHOW_FORMULARS=5;   // просмотр всех формуляров
     static final int KOD_SHOW_BOOKS=6;       // просмотр книг читателя
-
+    //podmenu: контроль должников
+    static final int KOD_SEARCH_DATE=1;        // проверка по дате
 
     //двухсвязный список (login-password) библиотекарей для проверки входа
     private static HashMap<String, String> hmArmUsers=null;
@@ -99,7 +101,7 @@ public class Arm {
                         + "\tI_____________________________________________I\n"
                         + "\tI  2-выборка по запрашиваемой книге           I\n"
                         + "\tI_____________________________________________I\n"
-                        + "\tI  5-выход в главное меню                    I\n"
+                        + "\tI  555-выход в главное меню                    I\n"
                         + "\tI_____________________________________________I\n");
                 break;
             }
